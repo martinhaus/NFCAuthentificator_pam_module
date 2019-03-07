@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define  PYTHON_WRAPPER_COMMAND "python wrapper.py -a"
+#define  PYTHON_WRAPPER_COMMAND "python wrapper.py -w"
 
 PAM_EXTERN int pam_sm_authenticate(pam_handle_t *handle, int flags, int argc,
 				   const char **argv)

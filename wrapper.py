@@ -1,12 +1,22 @@
 import sys, getopt
 from android_nfc_com.APDUCommunicator import APDUCommunicator
 from android_nfc_com.APDUMessageConverter import MessageConverter
+from smartcard.CardMonitoring import CardObserver, CardMonitor
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.PublicKey import RSA
 from base64 import b64decode, b64encode
 from Crypto.Hash import SHA256
 import hashlib
+from time import sleep
+import os
+
+class PhoneObserver(CardObserver):
+    def update(self, observable, actions):
+        (addedcards, removedcards) = actions
+        for card in addedcards:
+            authenticate()
+            
 
 
 def pair_device():
@@ -33,13 +43,22 @@ def authenticate():
 
     if signer.verify(h, b64decode(payload)):
         # Authentication successful
-        sys.exit(0)
+        print('Verified!')
+        # sys.exit(0)
+        os._exit(0)
     else:
         # Authentication failure
-        sys.exit(1)
+        os.exit(1)
 
-def challange_recieved_payload(payload):
-    return True
+def wait_for_device():
+    cardmonitor = CardMonitor()
+    cardobserver = PhoneObserver()
+    cardmonitor.addObserver(cardobserver)
+    print('Waiting for device...')
+    sleep(10)
+
+    cardmonitor.deleteObserver(cardobserver)
+
 
 def main(argv):
     try:
@@ -58,7 +77,7 @@ def main(argv):
             print('autenthicating')
             authenticate()
         elif opt in ("-w", "--wait"):
-            print('-w')
+            wait_for_device()
 
 if __name__ == "__main__":
     main(sys.argv[1:])
