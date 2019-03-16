@@ -64,11 +64,16 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"hpwa")
     except getopt.GetoptError:
-        print ('Usage: TODO - to be added')
+        print ('Usage: python wrapper.py -a -p -w')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('Usage: TODO - to be added')
+            print ('Usage:\n \
+-p   Generates new RSA keys and recieves devices \
+public key for signature verification\n\
+ -a   Authentication - the device must be already attached to\
+the reader when running this command.\n\
+ -w    Wait for device - same as -a, but the reader waits 10 seconds for device.')
             sys.exit()
         elif opt in ("-p", "--pair"):
             print('pairing')
