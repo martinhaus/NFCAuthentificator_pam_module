@@ -10,7 +10,7 @@ static struct pam_conv conv = {
 int main()
 {
         pam_handle_t *handle = NULL;
-        const char *service_name = "pam_example";
+        const char *service_name = "pam_nfc";
         int retval;
         char *username; /* This will be set by PAM with pam_get_item (see below) */
  

@@ -44,11 +44,10 @@ def authenticate():
     if signer.verify(h, b64decode(payload)):
         # Authentication successful
         print('Verified!')
-        # sys.exit(0)
         os._exit(0)
     else:
         # Authentication failure
-        os.exit(1)
+        os._exit(1)
 
 def wait_for_device():
     cardmonitor = CardMonitor()
@@ -58,6 +57,7 @@ def wait_for_device():
     sleep(10)
 
     cardmonitor.deleteObserver(cardobserver)
+    os._exit(1)
 
 
 def main(argv):
